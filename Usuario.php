@@ -1,36 +1,40 @@
+<?php
+namespace PHP\Modelo;
+require_once('Endereco.php');
+use PHP\Modelo\Endereco;
 
-<?php 
 class Usuario {
-    private $nome;
-    private $endereco;
-    private $telefone;
-    private $dataNascimento;
-    private $login;
-    private $senha;
+    protected string $nome;
+    protected string $telefone;
+    protected string $dataNascimento;
+    protected string $login;
+    protected string $senha;
+    protected Endereco $endereco;
 
-    public function __construct($nome, $endereco, $telefone, $dataNascimento, $login, $senha) {
+    public function __construct(string $nome, string $telefone, string $dataNascimento, string $login, string $senha, Endereco $endereco)
+    {
         $this->nome = $nome;
-        $this->endereco = $endereco;
         $this->telefone = $telefone;
         $this->dataNascimento = $dataNascimento;
         $this->login = $login;
         $this->senha = $senha;
+        $this->endereco = $endereco;
     }
 
-    public function cadastrar() {
-        
-        $_SESSION['usuario'] = [
-            'login' => $this->login,
-            'nome' => $this->nome
-        ];
+    public function __get(string $atributo): string {
+        return $this->$atributo;
     }
 
-    public function validarLogin($login, $senha) {
-         if ($this->login == $login && $this->senha == $senha) {
-            return true;
-        }
-        return false;
+    public function __set(string $atributo, string $valor): void {
+        $this->$atributo = $valor;
+    }
+
+    public function imprimir(): string {
+        return "<br>Nome: " . $this->nome .
+               "<br>Telefone: " . $this->telefone .
+               "<br>Data de Nascimento: " . $this->dataNascimento .
+               "<br>Login: " . $this->login .
+               "<br>Endereço: " . $this->endereco->imprimir();
     }
 }
- 
 ?>
