@@ -2,8 +2,8 @@
     namespace PHP\Modelo\Telas;
     require_once('../DAO/Conexao.php');
     require_once('../DAO/Inserir.php');
-    require_once('../DAO/Consultar.php');
-    use PHP\Modelo\DAO\Consultar;
+    // require_once('../DAO/Consultar.php');
+    // use PHP\Modelo\DAO\Consultar;
     use PHP\Modelo\DAO\Inserir;
     use PHP\Modelo\DAO\Conexao;
 
@@ -22,72 +22,72 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="index.php">The Bookstore</a>
+            <a class="navbar-brand" href="home.php">The Bookstore</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="store.php">Loja</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cart.php">Carrinho</a></li>
-                    <li class="nav-item"><a class="nav-link" href="reservations.php">Reservas</a></li>
                     <?php if(isset($_SESSION['user_id'])): ?>
-                        <li class="nav-item"><a class="nav-link" href="logout.php">Sair</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Home.php">Voltar para o Site</a></li>
                     <?php else: ?>
-                        <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="register.php">Registrar</a></li>
+                        <li class="nav-item"><a class="nav-link" href="LoginCliente.php">Já tem conta? Clique aqui</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container mt-4">
-        <h1>Cadastro de Cliente</h1>
+        
+        <div class="h1-cadastro" style = "text-align: center;">
+            <h1>Cadastro de Cliente</h1>
+        </div>                
         <form class="form-control" method="POST">
-            <div class="mb-3">
-                <label class="form-label">CPF</label>
-                <input type="text" class="form-control" name="cpf" required>
-            </div>
             <div class="mb-3">
                 <label class="form-label">Nome</label>
                 <input type="text" class="form-control" name="nome" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Telefone</label>
-                <input type="text" class="form-control" name="telefone" required>
+                <label class="form-label">Data de Nascimento</label>
+                <input type="text" class="form-control" name="datanascimento" required>
             </div>
+            
             <div class="mb-3">
                 <label class="form-label">Endereço</label>
                 <input type="text" class="form-control" name="endereco" required>
             </div>
+
             <div class="mb-3">
-                <label class="form-label">Cidade</label>
-                <input type="text" class="form-control" name="cidade" required>
+                <label class="form-label">Telefone</label>
+                <input type="text" class="form-control" name="telefone" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Estado</label>
-                <input type="text" class="form-control" name="estado" required>
+                <label class="form-label">E-mail</label>
+                <input type="text" class="form-control" name="email" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">CEP</label>
-                <input type="text" class="form-control" name="cep" required>
+                <label class="form-label">Senha</label>
+                <input type="text" class="form-control" name="senha" required>
             </div>
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-        </form>
+            
+        </form><br><br><br>
+        <div style = "text-align: center;">
+            <button type="submit" class="btn btn-primary">Cadastre-se</button>
+        </div>
         <?php 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             include 'includes/Inserir.php';
             $inserir = new Inserir();
-            $cpf = $_POST['cpf'];
             $nome = $_POST['nome'];
-            $telefone = $_POST['telefone'];
+            $datanascimento = $_POST['datanascimento'];
             $endereco = $_POST['endereco'];
-            $cidade = $_POST['cidade'];
-            $estado = $_POST['estado'];
-            $cep = $_POST['cep'];
+            $telefone = $_POST['telefone'];
+            $email = $_POST['email'];
+            $senha = $_POST['senha'];
+            
             
             try {
-                $inserir->cadastrarCliente($cpf, $nome, $telefone, $endereco, $cidade, $estado, $cep);
+                $inserir->cadastrarCliente($nome, $datanascimento, $endereco, $telefone, $email, $senha);
                 echo '<div class="alert alert-success mt-3">Cliente cadastrado com sucesso!</div>';
             } catch (Exception $erro) {
                 echo '<div class="alert alert-danger mt-3">Erro ao cadastrar cliente: ' . $erro->getMessage() . '</div>';

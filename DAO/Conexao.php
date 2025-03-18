@@ -4,7 +4,7 @@
     class Conexao{
         function conectar(){
         try {
-            $conn = mysqli_connect('localhost','root','','TI21');
+            $conn = mysqli_connect('localhost','root','','Livraria');
 
             if ($conn) {
                 echo "<br>Conectado com sucesso!";
