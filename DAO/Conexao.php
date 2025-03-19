@@ -1,22 +1,23 @@
-<?php 
-    namespace PHP\Modelo\DAO;
+<?php
+namespace PHP\Modelo\DAO;
 
-    class Conexao{
-        function conectar(){
-        try {
-            $conn = mysqli_connect('localhost','root','','Livraria');
+class Conexao {
+    private $host = "localhost";
+    private $user = "root";
+    private $password = "";
+    private $database = "bookstore_db";
+    private $conn;
 
-            if ($conn) {
-                echo "<br>Conectado com sucesso!";
-                return $conn;
-            }
-
-        } 
-        catch (Exception $erro) 
-        {
-           return "Algo deu errado!.$erro<br><br>";
+    public function __construct() {
+        $this->conn = new \mysqli($this->host, $this->user, $this->password, $this->database);
+        
+        if ($this->conn->connect_error) {
+            die("Erro de conexão: " . $this->conn->connect_error);
         }
-        }//fim do método
-    }//fim da classe
+    }
 
+    public function getConexao() {
+        return $this->conn;
+    }
+}
 ?>

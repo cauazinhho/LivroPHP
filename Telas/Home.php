@@ -25,8 +25,8 @@
             transform: scale(1.05);
         }
         footer {
-            background: #343a40;
-            color: white;
+            background: #F3A50D;
+            color: black;
             text-align: center;
             padding: 20px 0;
             margin-top: 20px;
@@ -34,10 +34,10 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg" style="background-color: #F3A50D;">
         <div class="container">
             <a class="navbar-brand" href="home.php">
-                <img src="img/bookstore.jpg" alt="Logo" width="50"> The Bookstore
+                <img src="img/bookstore.jpg"> The Bookstore
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -59,7 +59,7 @@
     </nav>
 
     <div class="banner">
-        <img src="banner.png" alt="Banner da livraria">
+        <img src="img/banner.png" alt="Banner da livraria">
     </div>
 
     <div class="container mt-5 text-center">
@@ -73,22 +73,28 @@
     <div class="container-cards">
         <?php $livros = [
             ["O Familiar", "Leigh Bardugo", "79,90"],
-            ["Hey, Vovô Jude!", "Paul McCartney", "69,90"],
+            ["Hey Vovo Jude", "Paul McCartney", "69,90"],
             ["As Aventuras de Mike", "Gabriel Dearo", "129,90"],
             ["Feras do Futebol", "Simon Mugford", "49,90"],
-            ["Graciliano: Retrato Fragmentado", "Ricardo Ramos", "159,90"],
+            ["Graciliano Retrato Fragmentado", "Ricardo Ramos", "159,90"],
             ["Sabores do Vinho", "Cristina Yamagami", "99,90"]
         ];
         foreach ($livros as $livro): ?>
         <div class="card p-3 text-center">
-            <img src="img/livro.jpg" class="card-img-top" alt="Livro">
+            <img src="img/<?php echo strtolower(str_replace(' ', '', $livro[0])); ?>.png" class="card-img-top" alt="<?php echo $livro[0]; ?>">
+
             <div class="card-body">
                 <h3><?php echo $livro[0]; ?></h3>
                 <p><?php echo $livro[1]; ?></p>
                 <p><strong>R$ <?php echo $livro[2]; ?></strong></p>
                
-                <button><a class="btn btn-primary" href="TelaComprar.php">Comprar</a></button>
-                <button class="btn btn-secondary">Reservar</button>
+                <?php if(isset($_SESSION['user_id'])): ?>
+            <button><a class="btn btn-primary" href="TelaComprar.php">Comprar</a></button>
+            <?php else: ?>
+                <button><a class="btn btn-warning" href="LoginCliente.php">Faça login para comprar</a></button>
+            <?php endif; ?>
+
+                <button><a class="btn btn-secondary" href="TelaReservar.php">Reservar</a></button>
             </div>
         </div>
         <?php endforeach; ?>

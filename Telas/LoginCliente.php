@@ -1,19 +1,47 @@
-<?php 
-    namespace PHP\Modelo\Telas;
-    require_once('../DAO/Conexao.php');
-    require_once('../DAO/Inserir.php');
-    use PHP\Modelo\DAO\Inserir;
-    use PHP\Modelo\DAO\Conexao;
+<?php
+session_start();
+require_once('../DAO/Conexao.php');
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
     $conexao = new Conexao();
-    $inserir = new Inserir();
+    $conn = $conexao->getConexao();
+
+    // Consulta o banco de dados
+    $sql = "SELECT id, nome, senha FROM usuarios WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($id, $nome, $senha_hash);
+        $stmt->fetch();
+
+        // Verifica a senha com password_verify()
+        if (password_verify($senha, $senha_hash)) {
+            $_SESSION['user_id'] = $id;
+            $_SESSION['user_nome'] = $nome;
+            header("Location: home.php");
+            exit();
+        } else {
+            $erro = "Senha incorreta.";
+        }
+    } else {
+        $erro = "Usuário não encontrado.";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Bookstore - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -24,13 +52,6 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="store.php">Loja</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cart.php">Carrinho</a></li>
-                    <li class="nav-item"><a class="nav-link" href="reservations.php">Reservas</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
     
@@ -47,17 +68,12 @@
             </div>
             <button type="submit" class="btn btn-primary w-100">Entrar</button>
         </form>
-        <?php 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $email = $_POST['email'];
-            $senha = $_POST['senha'];
-            
-            // Aqui você pode adicionar a lógica de autenticação
-            echo '<div class="alert alert-success mt-3 text-center">Login efetuado com sucesso!</div>';
-        }
-        ?>
+
+        <?php if (isset($erro)): ?>
+            <div class="alert alert-danger mt-3 text-center"><?php echo $erro; ?></div>
+        <?php endif; ?>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

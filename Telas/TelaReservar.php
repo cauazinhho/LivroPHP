@@ -1,24 +1,12 @@
 <?php  
-   <?php
-   session_start(); // Inicia a sessão
-   
-    
-   if (!isset($_SESSION['user_id'])) {
-        
-       header("Location: LoginCliente.php");
-       exit();  
-   }
-   
-   namespace PHP\Modelo\Telas;
-   require_once('../DAO/Conexao.php');
-   require_once('../DAO/Inserir.php');
-   use PHP\Modelo\DAO\Inserir;
-   use PHP\Modelo\DAO\Conexao;
-   
-   $conexao = new Conexao();
-   $inserir = new Inserir();
-   ?>
-   
+    namespace PHP\Modelo\Telas;
+    require_once('../DAO/Conexao.php');
+    require_once('../DAO/Inserir.php');
+    use PHP\Modelo\DAO\Inserir;
+    use PHP\Modelo\DAO\Conexao;
+
+    $conexao = new Conexao();
+    $inserir = new Inserir();
 ?>
 
 <!DOCTYPE html>
@@ -26,11 +14,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Bookstore - Compra</title>
+    <title>The Bookstore - Reserva</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg" style="background-color: #F3A50D;">
         <div class="container">
             <a class="navbar-brand" href="home.php">The Bookstore</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -47,7 +35,7 @@
     </nav>
     
     <div class="container mt-5">
-        <h1 class="text-center">Finalize sua Compra</h1>
+        <h1 class="text-center">Faça sua Reserva</h1>
         <form class="card p-4 mx-auto" style="max-width: 500px;" method="POST">
             <div class="mb-3">
                 <label class="form-label">Livro</label>
@@ -65,42 +53,14 @@
                 <label class="form-label">Quantidade</label>
                 <input type="number" class="form-control" name="quantidade" min="1" required>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Nome no Cartão</label>
-                <input type="text" class="form-control" name="nome_cartao" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Data de Vencimento</label>
-                <input type="month" class="form-control" name="data_vencimento" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">CVV</label>
-                <input type="text" class="form-control" name="cvv" pattern="\d{3,4}" maxlength="4" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Parcelas</label>
-                <select class="form-select" name="parcelas" required>
-                    <option value="1">1x sem juros</option>
-                    <option value="2">2x sem juros</option>
-                    <option value="3">3x sem juros</option>
-                    <option value="4">4x com juros</option>
-                    <option value="5">5x com juros</option>
-                    <option value="6">6x com juros</option>
-                    <option value="7">7x com juros</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Finalizar Compra</button>
+            <button type="submit" class="btn btn-primary w-100">Reservar</button>
         </form>
         <?php 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $livro = htmlspecialchars($_POST['livros']);
             $quantidade = intval($_POST['quantidade']);
-            $nome_cartao = htmlspecialchars($_POST['nome_cartao']);
-            $data_vencimento = htmlspecialchars($_POST['data_vencimento']);
-            $cvv = htmlspecialchars($_POST['cvv']);
-            $parcelas = intval($_POST['parcelas']);
             
-            echo '<div class="alert alert-success mt-3 text-center">Compra do livro <strong>'.$livro.'</strong> realizada com sucesso!</div>';
+            echo '<div class="alert alert-success mt-3 text-center">Reserva do livro <strong>'.$livro.'</strong> realizada com sucesso!</div>';
         }
         ?>
     </div>
