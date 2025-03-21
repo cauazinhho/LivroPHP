@@ -30,10 +30,10 @@ class Sistema {
     }
 
     public function adicionarLivroCarrinho(Carrinho $carrinho, Livro $livro): string {
-        // Consulta de disponibilidade do livro
+       
         $disponibilidade = $livro->consultarDisponibilidade();
 
-        // Se o livro não está disponível, oferecer reserva
+       
         if (!$livro->isDisponivel()) {
             $disponibilidade .= "<br>Deseja reservar o livro?";
         }
@@ -47,7 +47,7 @@ class Sistema {
             return "Você precisa estar logado para finalizar a compra!";
         }
 
-        // Valida o pagamento com sistema externo (simulado)
+        
         if ($this->validarCartao($pagamento->numeroCartao)) {
             if ($pagamento->processarPagamento()) {
                 return "Compra finalizada com sucesso! Total: R$ " . number_format($carrinho->calcularTotal(), 2, ',', '.') . "<br>Pagamento processado com sucesso!";
@@ -59,24 +59,23 @@ class Sistema {
         }
     }
 
-    // Simulação de validação de cartão de crédito com sistema externo
+   
     private function validarCartao(string $numeroCartao): bool {
-        // Em um sistema real, você integraria com uma API externa aqui (ex: Stripe, PayPal, etc.)
-        // Para fins de simulação, vamos considerar o cartão válido se tiver 16 caracteres.
+        
         return strlen($numeroCartao) === 16;
     }
 
-    // Função de reserva caso o livro esteja indisponível
+   
     public function realizarReserva(Livro $livro): string {
         if (!$livro->isDisponivel()) {
-            // Caso o livro não tenha estoque, realiza a reserva
+           
             if ($this->usuarioAtual === null) {
                 return "Você precisa estar logado para realizar a reserva!";
             }
 
             $reserva = new Reserva($livro, $this->usuarioAtual);
             $this->reservas[] = $reserva;
-            $livro->reservar();  // Atualiza o estoque após a reserva
+            $livro->reservar();  
             return "Reserva realizada com sucesso para o livro: " . $livro->titulo . "<br>" . $reserva->imprimir();
         }
 

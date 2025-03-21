@@ -1,6 +1,6 @@
 <?php  
    <?php
-   session_start(); // Inicia a sessão
+   session_start();
    
     
    if (!isset($_SESSION['user_id'])) {

@@ -9,4 +9,4 @@ CREATE TABLE usuarios (
 );
 
 INSERT INTO usuarios (nome, email, senha) 
-VALUES ('João Silva', 'joao@email.com', PASSWORD('123456'));
+VALUES ('Clebin', 'clebin@gmail.com', PASSWORD('123'));

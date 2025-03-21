@@ -9,7 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conexao = new Conexao();
     $conn = $conexao->getConexao();
 
-    // Consulta o banco de dados
     $sql = "SELECT id, nome, senha FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
@@ -20,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_result($id, $nome, $senha_hash);
         $stmt->fetch();
 
-        // Verifica a senha com password_verify()
         if (password_verify($senha, $senha_hash)) {
             $_SESSION['user_id'] = $id;
             $_SESSION['user_nome'] = $nome;

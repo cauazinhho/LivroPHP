@@ -27,12 +27,12 @@ class Livro {
         return "Título: " . $this->titulo . "<br>Autor: " . $this->autor . "<br>Preço: R$ " . number_format($this->preco, 2, ',', '.') . "<br>Estoque: " . $this->estoque;
     }
 
-    // Verifica se o livro está disponível para compra
+    // Verifica se o livro
     public function isDisponivel(): bool {
         return $this->estoque > 0;
     }
 
-    // Consultar disponibilidade do livro
+   
     public function consultarDisponibilidade(): string {
         if ($this->isDisponivel()) {
             return "O livro '{$this->titulo}' está disponível para compra.";
@@ -44,7 +44,7 @@ class Livro {
     // Reservar um livro
     public function reservar(): void {
         if ($this->isDisponivel()) {
-            $this->estoque -= 1; // Decrementa o estoque ao reservar o livro
+            $this->estoque -= 1;
         }
     }
 }

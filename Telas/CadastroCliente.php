@@ -7,7 +7,7 @@
     use PHP\Modelo\DAO\Inserir;
     use PHP\Modelo\DAO\Conexao;
 
-    $conexao = new Conexao();//acessa a classe conexao
+    $conexao = new Conexao();
     $inserir = new Inserir();//Inserir 
   ?>
 
